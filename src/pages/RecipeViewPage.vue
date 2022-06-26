@@ -63,13 +63,15 @@ export default {
           }
         );
 
-        // console.log("response.status", response.status);
+        console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
       } catch (error) {
         console.log("error.response.status", error.response.status);
         this.$router.replace("/NotFound");
         return;
       }
+
+      console.log(response.data);
 
       let {
         analyzedInstructions,

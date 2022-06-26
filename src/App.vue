@@ -3,14 +3,31 @@
     <div id="nav">
       <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
-      {{ !$root.store.username }}
+      <router-link :to="{ name: 'about' }">About</router-link>|
+        <router-link :to="{ path: '/recipe/1' }">Recipe 1</router-link>|
+      <!-- {{ !$root.store.username }} -->
       <span v-if="!$root.store.username">
-        Guest:
+        Hello Guest
         <router-link :to="{ name: 'register' }">Register</router-link>|
         <router-link :to="{ name: 'login' }">Login</router-link>|
       </span>
       <span v-else>
-        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
+        <div>
+          <b-dropdown id="dropdown-divider" :text='$root.store.username + "`s profile"' class="m-2">
+            <b-dropdown-item :to="{name: 'favorites'}"> My Favorites </b-dropdown-item>
+            <b-dropdown-item :to="{name: 'myRecipes'}"> My Recipes </b-dropdown-item>
+            <b-dropdown-item :to="{name: 'familyRecipes'}"> Family Recipes </b-dropdown-item>
+            <b-dropdown-item :to="{name: 'createRecipe'}"> Create New Recipe </b-dropdown-item>
+            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-item-button @click="Logout"> Logout </b-dropdown-item-button>
+          </b-dropdown>
+        </div>
+        <!-- {{ $root.store.username }}
+        <router-link :to="{ name: 'main' }"> My Favorites</router-link>|
+        <router-link :to="{ name: 'main' }"> My Recipes</router-link>|
+        <router-link :to="{ name: 'main' }"> Family Recipes</router-link>|
+        <router-link :to="{ name: 'main' }"> Create New Recipe</router-link>|
+        <button @click="Logout">Logout</button>| -->
       </span>
     </div>
     <router-view />
