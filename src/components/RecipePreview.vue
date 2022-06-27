@@ -1,6 +1,8 @@
 <template>
   <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+    :to="{ path: '/recipe/' + recipe.id
+    //, params: { recipeId: recipe.id } 
+    }"
     class="recipe-preview"
   >
     <div class="recipe-body">

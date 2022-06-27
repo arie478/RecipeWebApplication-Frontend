@@ -4,7 +4,7 @@
       <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
       <router-link :to="{ name: 'about' }">About</router-link>|
-        <router-link :to="{ path: '/recipe/1' }">Recipe 1</router-link>|
+        <router-link :to="{ path: '/recipe/641958' }">Recipe 641958</router-link>|
       <!-- {{ !$root.store.username }} -->
       <span v-if="!$root.store.username">
         Hello Guest
