@@ -4,11 +4,11 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
+    <b-col>
+      <b-row v-for="r in recipes" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r" />
-      </b-col>
-    </b-row>
+      </b-row>
+    </b-col>
   </b-container>
 </template>
 
@@ -24,6 +24,7 @@ export default {
       type: String,
       required: true
     }
+    
   },
   data() {
     return {
@@ -49,7 +50,7 @@ export default {
         console.log("response.data")
         console.log(response.data)
         this.recipes = [];
-        this.recipes.push(...recipes);
+        this.recipes.push(...response.data);
         // console.log(this.recipes);
       } catch (error) {
         console.log(error);

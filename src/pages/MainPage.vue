@@ -1,9 +1,16 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Random Recipes" class="RandomRecipes center" />
-    <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link>
+    <div class="float-child">
+    <RecipePreviewList title="Random Recipes" class="RandomRecipes center"/>
+    </div>
+
+    <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
+    <div class="float-child">
+    <LoginPage v-if="!$root.store.username"/>
+    </div>
     <!-- {{ !$root.store.username }} -->
+    <div class="float-child">
     <RecipePreviewList
       title="Last Viewed Recipes"
       :class="{
@@ -12,9 +19,12 @@
         center: true
       }"
       disabled
-    ></RecipePreviewList>
+    v-if="$root.store.username"></RecipePreviewList>
+    </div>
+
     <!-- <div
-      style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
+       width: 50%;
+       float: left; style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >
       Centeredasdasdad
     </div>-->
@@ -23,10 +33,12 @@
 
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
+import LoginPage from "./LoginPage.vue";
 export default {
   components: {
-    RecipePreviewList
-  }
+    RecipePreviewList,
+    LoginPage
+}
 };
 </script>
 
@@ -42,4 +54,11 @@ export default {
   pointer-events: none;
   cursor: default;
 }
+
+.float-child 
+{
+    width: 50%;
+    float: left;
+}  
+
 </style>
