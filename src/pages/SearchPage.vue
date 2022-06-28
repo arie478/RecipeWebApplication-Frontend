@@ -198,7 +198,7 @@ export default {
                 if (this.form.intolerance == "any")
                   this.intolerance = undefined
 
-                const response = await this.axios.get(
+                const response = await this.axios.post(
                 // "https://test-for-3-2.herokuapp.com/user/Register",
                 // this.$root.store.server_domain + "/Register"
 
