@@ -4,6 +4,10 @@ import VueAxios from "vue-axios";
 import axios from "axios";
 
 import routes from "./routes";
+
+import VueCookies from 'vue-cookies'
+Vue.use(VueCookies);
+
 import VueRouter from "vue-router";
 Vue.use(VueRouter);
 const router = new VueRouter({
@@ -70,12 +74,14 @@ const shared_data = {
   username: localStorage.username,
   login(username) {
     localStorage.setItem("username", username);
+    sessionStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
   },
   logout() {
     console.log("logout");
     localStorage.removeItem("username");
+    sessionStorage.removeItem("username");
     this.username = undefined;
   },
 };

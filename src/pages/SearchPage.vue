@@ -181,7 +181,22 @@ export default {
         this.cuisines.push(...cuisines);
         this.diets.push(...diets);
         this.intolerances.push(...intolerances);
+
         this.show_recipes = false;
+
+
+        if (sessionStorage.username)
+        {
+          console.log("sessionStorage.username PRE")
+          console.log(sessionStorage.username)
+          console.log("sessionStorage.search PRE")
+          console.log(sessionStorage.search)
+          if(sessionStorage.search)
+          {
+            this.recipes = JSON.parse(sessionStorage.search);
+            this.show_recipes = true;
+          }
+        }
         // console.log($v);
     },
     methods: {
@@ -218,6 +233,13 @@ export default {
                 console.log(response.data)
                 this.recipes = [];
                 this.recipes.push(...response.data);
+
+                if (sessionStorage.username)
+                {
+                  sessionStorage.search = this.recipes;
+                  console.log("sessionStorage.search POST")
+                  console.log(sessionStorage.search = JSON.stringify(this.recipes))
+                }
                 //console.log(this.recipes);
 
 
