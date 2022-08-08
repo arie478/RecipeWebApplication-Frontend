@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">Main Page</h1>
     <div class="float-child">
-    <RecipePreviewList title="Random Recipes" class="RandomRecipes center"/>
+    <RecipePreviewList title="Random Recipes" :recipes="this.recipes" class="RandomRecipes center"/>
     </div>
 
     <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
@@ -38,7 +38,33 @@ export default {
   components: {
     RecipePreviewList,
     LoginPage
-}
+},
+
+mounted() {
+    this.updateRandomRecipes();
+  },
+   data() {
+    return {
+      recipes: []
+    };
+  },
+  methods: {
+    async updateRandomRecipes() {
+      try {
+        // const response = await this.axios.get(
+        //   // this.$root.store.server_domain + "/recipes/random",
+        //   // "https://test-for-3-2.herokuapp.com/recipes/random"
+        //   "http://localhost:3000/recipes/random",
+        // );
+
+        this.recipes = [];
+        // this.recipes.push(...response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
 };
 </script>
 
