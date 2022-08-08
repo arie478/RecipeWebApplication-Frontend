@@ -2,7 +2,7 @@
   <div id="app">
     <div id="nav">
       <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
-      <router-link :to="{ name: 'search' }">Search</router-link>|
+        <router-link :to="{ name: 'search' }">Search</router-link>|
       <router-link :to="{ name: 'about' }">About</router-link>|
         <!-- <router-link :to="{ path: '/recipe/641958' }">Recipe 641958</router-link>| -->
       <!-- {{ !$root.store.username }} -->
@@ -35,12 +35,39 @@
 </template>
 
 <script>
+
 export default {
   name: "App",
   methods: {
-    Logout() {
+    async Logout() {
+
+try {
+        
+        this.$cookies.set('didItWork', "YES")
+        this.axios.defaults.withCredentials = true;
+
+        const response = await this.axios.post(
+          // "https://test-for-3-2.herokuapp.com/user/Login",
+          // this.$root.store.server_domain +"/Login",
+          // "http://132.72.65.211:80/Login",
+          // "http://132.73.84.100:80/Login",
+          "http://localhost:3000/Logout"
+        );
+
+        this.axios.defaults.withCredentials = false;
+        // console.log(response);
+        // this.$root.loggedIn = true;
+
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
+
+
+
 
       this.$router.push("/").catch(() => {
         this.$forceUpdate();
