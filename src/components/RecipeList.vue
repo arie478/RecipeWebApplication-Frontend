@@ -4,9 +4,14 @@
       {{ title }}:
       <slot></slot>
     </h3>
-    <b-col>
+    <b-col v-if="this.isPreview">
       <b-row v-for="r in recipes" :key="r.id">
         <RecipePreview class="recipePreview" :recipe="r" />
+      </b-row>
+    </b-col>
+    <b-col v-if="!this.isPreview">
+      <b-row v-for="r in recipes" :key="r.id">
+        <RecipeFull class="recipeFull" :recipe="r" />
       </b-row>
     </b-col>
   </b-container>
@@ -14,10 +19,12 @@
 
 <script>
 import RecipePreview from "./RecipePreview.vue";
+import RecipeFull from "./RecipeFull.vue";
 export default {
-  name: "RecipePreviewList",
+  name: "RecipeList",
   components: {
-    RecipePreview
+    RecipePreview,
+    RecipeFull
   },
   props: {
     title: {
@@ -27,7 +34,12 @@ export default {
      recipes: 
     {
       type: Array,
-      required: false
+      required: true
+    },
+     isPreview: 
+    {
+      type: Boolean,
+      required: true
     }
   },
 };

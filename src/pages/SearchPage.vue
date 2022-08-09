@@ -114,7 +114,38 @@
     </b-card> -->
 
   <div>
-    <RecipePreviewList v-if="this.show_recipes" :recipes="this.recipes" title="Search results"/>
+    <br>
+    <br>
+    <b-form v-if="this.show_recipes" @submit.prevent="Sort">
+      <h1 class="title">Sorting options</h1>
+      <b-form-group
+        id="input-group-sortpick"
+        label-cols-sm="3"
+        label="Sort by:"
+        label-for="sortpick"
+      >
+        <b-form-select
+          id="sortpick"
+          v-model="$v.form.sortpick.$model"
+          :options="['Likes', 'Time to make']"
+          :state="validateState('sortpick')"
+        ></b-form-select>
+        <b-form-invalid-feedback>
+          Sort type is required
+        </b-form-invalid-feedback>
+      </b-form-group>
+
+      <b-button
+        type="submit"
+        variant="primary"
+        style="width:250px;"
+        class="ml-5 w-75"
+        >Sort</b-button
+      >
+    </b-form>
+    <br>
+    <br>
+    <RecipeList v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" title="Search results"/>
   </div>
   </div>
 
@@ -133,7 +164,7 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import M from "minimatch";
-import RecipePreviewList from "../components/RecipePreviewList.vue";
+import RecipeList from "../components/RecipeList.vue";
 
 export default {
     name: "Search",
@@ -145,7 +176,8 @@ export default {
                 diet: "Any",
                 intolerance: "Any",
                 resnum: "5",
-                submitError: undefined
+                submitError: undefined,
+                sortpick: "Likes"
             },
             cuisines: [{ value: null, text: "", disabled: true }],
             diets: [{ value: null, text: "", disabled: true }],
@@ -172,6 +204,9 @@ export default {
                 required
             },
             resnum: {
+                required,
+            },
+            sortpick:{
                 required,
             }
         }
@@ -250,6 +285,32 @@ export default {
                 this.form.submitError = err.response.data.message;
             }
         },
+
+        Sort() {
+                if (this.form.sortpick == "Likes")
+                {
+                  this.recipes = this.recipes.sort((recipe1,recipe2) => recipe1.aggregateLikes > recipe2.aggregateLikes ? -1 : 1);
+                  console.log(this.recipes);
+                }
+
+                if (this.form.sortpick == "Time to make")
+                {
+                  this.recipes = this.recipes.sort((recipe1,recipe2) => recipe1.readyInMinutes > recipe2.readyInMinutes ? -1 : 1);
+                  console.log(this.recipes);
+                }
+
+                if (sessionStorage.username)
+                {
+                  sessionStorage.search = JSON.stringify(this.recipes);
+                }
+
+                this.show_recipes = false;
+
+                 setTimeout(() => {
+                  this.show_recipes = true;
+                }, 10);
+        },
+
         onSearch() {
             // console.log("search method called");
             this.$v.form.$touch();
@@ -265,14 +326,15 @@ export default {
                 cuisine: "Any",
                 diet: "Any",
                 intolerance: "Any",
-                resnum: "5"
+                resnum: "5",
+                sortpick: "Likes"
             };
             this.$nextTick(() => {
                 this.$v.$reset();
             });
         }
     },
-    components: { RecipePreviewList }
+    components: { RecipeList }
 };
 </script>
 <style lang="scss" scoped>
