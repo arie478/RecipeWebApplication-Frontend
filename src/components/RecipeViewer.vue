@@ -13,21 +13,62 @@
       <div :title="recipe.title" class="recipe-title">
         <h4>{{ recipe.title }}</h4>
       </div>
+
     </div>
   </router-link>
   
+    <div class="recipe-markings">
+      <b-row>
+        <b-col v-if="recipe.glutenFree" >
+          <b-img src="../assets/gluten_free_text.png" height="50%" width="50%"></b-img>
+        </b-col>
+        <b-col v-if="!recipe.glutenFree" >
+          <b-img src="../assets/gluten_text.png" height="50%" width="50%"></b-img>
+        </b-col>
+        <b-col v-if="recipe.vegetarian">
+          <b-img src="../assets/vegetarian_text.png" height="50%" width="50"></b-img>
+        </b-col>
+        <b-col v-if="recipe.began">
+          <b-img src="../assets/vegan_text.png" height="50%" width="50%"></b-img>
+        </b-col>
+      </b-row>
+
+      <br>
+      <b-row>
+         <b-col> 
+          <b-button @click="add_to_favorite" variant="outline-warning" class="mb-2">
+            <b-icon  :icon="this.change_favorite()"></b-icon>
+          </b-button>
+        </b-col>
+      </b-row>
+    </div>
+    <br>
+
     <div >
       <b-row class="recipe-overview">
         <b-col><h5>Time to make:</h5> {{ recipe.readyInMinutes }} minutes</b-col>
         <b-col><h5>Popularity:</h5> {{ recipe.aggregateLikes }} likes</b-col>
+        <b-col v-if="!isPreview && show_ing_and_serv"><h5>Servings:</h5> {{ recipe.servings }}</b-col>
       </b-row>
     </div>
+
+    <br>
     
-    <div>
+    <div v-if="!isPreview">
+
+      <b-col v-if="show_ing_and_serv">
+        <br>
+        <h5>Ingredients:</h5>
+        <b-row v-for="ingredient in recipe.ingredients.flat()" :key="ingredient">
+          <li>{{instruction}}</li>
+          
+        </b-row>
+      </b-col>
+
       <b-col >
         <br>
         <h5>Instructions:</h5>
-        <b-row v-for="instruction in recipe.instructions[0]" :key="instruction">
+        <b-row v-for="instruction in recipe.instructions.flat()" :key="instruction">
           <li>{{instruction}}</li>
           
         </b-row>
@@ -44,6 +85,33 @@ export default {
       this.image_load = true;
     });
   },
+  methods: 
+  {
+        add_to_favorite() 
+        {
+          if(this.recipe.is_favorited)
+          {
+            this.recipe.is_favorited = false;
+          }
+          else
+          {
+            this.recipe.is_favorited = true;
+          }
+          this.$forceUpdate();
+        },
+
+        change_favorite() 
+        {
+          if(this.recipe.is_favorited)
+          {
+            return "star-fill";
+          }
+          else
+          {
+            return "star";
+          }
+        }
+  },
   data() {
     return {
       image_load: false
@@ -52,6 +120,15 @@ export default {
   props: {
     recipe: {
       type: Object,
+      required: true
+    },
+     show_ing_and_serv: {
+      type: Boolean,
+      required: true
+    },
+     isPreview: 
+    {
+      type: Boolean,
       required: true
     }
 
@@ -109,6 +186,7 @@ export default {
   background-size: cover;
 }
 
+
 .recipe-preview .recipe-footer {
   width: 100%;
   
@@ -132,7 +210,7 @@ padding: 10px 10px;
   width: 100%;
   font-size: 12pt;
   text-align: center;
-  white-space: nowrap;
+  white-space: initial;
   overflow: hidden;
   -o-text-overflow: ellipsis;
   text-overflow: ellipsis;
@@ -184,6 +262,7 @@ recipe-overview
 .recipe-box
 {
   --b: 10px; /* control the size */
+  width: 100%;
   padding: var(--b);
   border: calc(2*var(--b)) solid #0000;
   outline: 1px solid #000;
@@ -195,6 +274,18 @@ li {
     margin-top: 15px;
 }
 
+.recipe-markings 
+{
+  margin: auto;
+  width: 50%;
+  text-align: center;
+}
 
+.recipe-overview 
+{
+  margin: auto;
+  width: 100%;
+  text-align: center;
+}
 
 </style>
