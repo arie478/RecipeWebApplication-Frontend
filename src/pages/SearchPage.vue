@@ -17,9 +17,6 @@
         <b-form-invalid-feedback v-if="!$v.form.recipename.required">
           Recipe name is required
         </b-form-invalid-feedback>
-        <b-form-invalid-feedback v-if="!$v.form.recipename.alpha">
-          Recipe name must be letters only
-        </b-form-invalid-feedback>
       </b-form-group>
 
       <b-form-group
@@ -101,12 +98,12 @@
     </b-form>
     <b-alert
       class="mt-2"
-      v-if="form.submitError"
+      v-if="this.no_res"
       variant="warning"
       dismissible
       show
     >
-      Search failed: {{ form.submitError }}
+      0 results found.
     </b-alert>
     <!-- <b-card class="mt-3 md-3" header="Form Data Result">
       <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
@@ -145,7 +142,7 @@
     </b-form>
     <br>
     <br>
-    <RecipeList v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" title="Search results"/>
+    <RecipeViewerList v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" :show_ing_and_serv="false" title="Search results"/>
   </div>
   </div>
 
@@ -164,7 +161,7 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import M from "minimatch";
-import RecipeList from "../components/RecipeList.vue";
+import RecipeViewerList from "../components/RecipeViewerList.vue";
 
 export default {
     name: "Search",
@@ -184,7 +181,8 @@ export default {
             intolerances: [{ value: null, text: "", disabled: true }],
             errors: [],
             validated: false,
-            show_recipes: false
+            show_recipes: false,
+            no_res: false
         };
     },
     validations: {
@@ -192,7 +190,6 @@ export default {
             recipename: {
                 required,
                 length: (u) => minLength(1)(u) && maxLength(50)(u),
-                alpha
             },
             cuisine: {
                 required
@@ -241,6 +238,7 @@ export default {
         },
         async Search() {
             try {
+                this.no_res = false;
                 if (this.form.cuisine == "any")
                   this.cuisine = undefined
                 if (this.form.diet == "any")
@@ -266,6 +264,15 @@ export default {
                 console.log(response)
                 console.log("response.data")
                 console.log(response.data)
+
+                if(response.data == "Found 0 search results")
+                {
+                  this.no_res = true;
+                  return;
+                }
+                else
+                {
+
                 this.recipes = [];
                 this.recipes.push(...response.data);
 
@@ -279,6 +286,7 @@ export default {
 
 
                 this.show_recipes = true;
+                }
             }
             catch (err) {
                 console.log(err.response);
@@ -334,7 +342,7 @@ export default {
             });
         }
     },
-    components: { RecipeList }
+    components: { RecipeViewerList }
 };
 </script>
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">Main Page</h1>
     <div class="float-child">
-    <RecipeList title="Random Recipes" :isPreview="true" :recipes="this.recipes" class="RandomRecipes center"/>
+    <RecipeViewerList title="Random Recipes" :isPreview="true" :show_ing_and_serv="false" :recipes="this.recipes" class="RandomRecipes center"/>
     </div>
 
     <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
@@ -11,7 +11,7 @@
     </div>
     <!-- {{ !$root.store.username }} -->
     <div class="float-child">
-    <RecipeList
+    <RecipeViewerList
       title="Last Viewed Recipes"
       :class="{
         RandomRecipes: true,
@@ -20,7 +20,7 @@
       }"
       :isPreview="true"
       disabled
-    v-if="$root.store.username"></RecipeList>
+    v-if="$root.store.username"></RecipeViewerList>
     </div>
 
     <!-- <div
@@ -33,11 +33,11 @@
 </template>
 
 <script>
-import RecipeList from "../components/RecipeList";
+import RecipeViewerList from "../components/RecipeViewerList";
 import LoginPage from "./LoginPage.vue";
 export default {
   components: {
-    RecipeList,
+    RecipeViewerList,
     LoginPage
 },
 
@@ -59,7 +59,7 @@ mounted() {
         // );
 
         this.recipes = [];
-        // this.recipes.push(...response.data);
+        //this.recipes.push(...response.data);
       } catch (error) {
         console.log(error);
       }
