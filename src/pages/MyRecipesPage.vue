@@ -1,22 +1,23 @@
 <template>
   <div class="container">
-    <RecipeList 
+    <RecipeViewerList 
     title="My Recipes Page"
     :recipes="myRecipes"
     :isPreview="true"
+    :show_ing_and_serv="false"
     />
   </div>
 </template>
 
 <script>
-import RecipeList from '../components/RecipeList.vue';
+import RecipeViewerList from '../components/RecipeViewerList.vue';
 
 export default
   {
     name: "MyRecipesPage",
     components:
     {
-      RecipeList: RecipeList
+      RecipeViewerList: RecipeViewerList
     },
     data() {
       return {
