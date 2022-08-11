@@ -40,6 +40,9 @@
             <b-icon  :icon="this.change_favorite()"></b-icon>
           </b-button>
         </b-col>
+        <b-col> 
+            <b-icon  :icon="this.change_watched()" scale="2" shift-v="-8"></b-icon>
+        </b-col>
       </b-row>
     </div>
     <br>
@@ -87,7 +90,7 @@ export default {
   },
   methods: 
   {
-        add_to_favorite() 
+        async add_to_favorite() 
         {
           if(this.recipe.is_favorited)
           {
@@ -95,6 +98,23 @@ export default {
           }
           else
           {
+          try 
+          {
+              const response = await this.axios.post(
+              //   // this.$root.store.server_domain + "/recipes/random",
+              //   // "https://test-for-3-2.herokuapp.com/recipes/random"
+                "http://localhost:3000/users/addToFavorites",
+                  {
+                    recipeId: this.recipe.id
+                  }
+              );
+              console.log(response.data);
+            } 
+            catch (error) 
+            {
+                  console.log(error);
+            }
+
             this.recipe.is_favorited = true;
           }
           this.$forceUpdate();
@@ -109,6 +129,18 @@ export default {
           else
           {
             return "star";
+          }
+        },
+
+        change_watched() 
+        {
+          if(this.recipe.is_watched)
+          {
+            return "eye-fill";
+          }
+          else
+          {
+            return "eye-slash";
           }
         }
   },
