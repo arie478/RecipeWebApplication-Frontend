@@ -79,7 +79,7 @@
         <b-form-select
           id="resnum"
           v-model="$v.form.resnum.$model"
-          :options="['5', '10', '15']"
+          :options="['1', '10', '15']"
           :state="validateState('resnum')"
         ></b-form-select>
         <b-form-invalid-feedback>
@@ -124,7 +124,7 @@
         <b-form-select
           id="sortpick"
           v-model="$v.form.sortpick.$model"
-          :options="['Likes', 'Time to make']"
+          :options="['None','Likes', 'Time to make']"
           :state="validateState('sortpick')"
         ></b-form-select>
         <b-form-invalid-feedback>
@@ -142,7 +142,7 @@
     </b-form>
     <br>
     <br>
-    <RecipeViewerList v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" :show_ing_and_serv="false" title="Search results"/>
+    <RecipeViewerList @fav="Sort" v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" :show_ing_and_serv="false" title="Search results"/>
   </div>
   </div>
 
@@ -172,9 +172,9 @@ export default {
                 cuisine: "Any",
                 diet: "Any",
                 intolerance: "Any",
-                resnum: "5",
+                resnum: "1",
                 submitError: undefined,
-                sortpick: "Likes"
+                sortpick: "None"
             },
             cuisines: [{ value: null, text: "", disabled: true }],
             diets: [{ value: null, text: "", disabled: true }],
@@ -253,9 +253,9 @@ export default {
                 "http://localhost:3000/recipes/search", 
                 {
                     query: this.form.recipename,
-                    cuisine: this.cuisine,
-                    diet: this.diet,
-                    intolerances: this.intolerance,
+                    cuisine: this.form.cuisine,
+                    diet: this.form.diet,
+                    intolerances: this.form.intolerance,
                     number: this.form.resnum,
                 }
                 );
@@ -268,6 +268,7 @@ export default {
                 if(response.data == "Found 0 search results")
                 {
                   this.no_res = true;
+                  this.show_recipes = false;
                   return;
                 }
                 else
@@ -284,8 +285,11 @@ export default {
                 }
                 //console.log(this.recipes);
 
+                this.show_recipes = false;
 
-                this.show_recipes = true;
+                 setTimeout(() => {
+                  this.show_recipes = true;
+                }, 10);
                 }
             }
             catch (err) {
@@ -295,6 +299,11 @@ export default {
         },
 
         Sort() {
+                if (this.form.sortpick == "None")
+                  {
+                    return;
+                  }
+
                 if (this.form.sortpick == "Likes")
                 {
                   this.recipes = this.recipes.sort((recipe1,recipe2) => recipe1.aggregateLikes > recipe2.aggregateLikes ? -1 : 1);
@@ -335,7 +344,7 @@ export default {
                 diet: "Any",
                 intolerance: "Any",
                 resnum: "5",
-                sortpick: "Likes"
+                sortpick: "None"
             };
             this.$nextTick(() => {
                 this.$v.$reset();
