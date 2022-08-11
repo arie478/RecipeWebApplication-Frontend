@@ -34,9 +34,9 @@
       </b-row>
 
       <br>
-      <b-row>
+      <b-row v-if="$root.store.username">
          <b-col> 
-          <b-button @click="add_to_favorite" variant="outline-warning" class="mb-2">
+          <b-button :disabled="this.recipe.is_favoried" @click="add_to_favorite" variant="outline-warning" class="mb-2">
             <b-icon  :icon="this.change_favorite()"></b-icon>
           </b-button>
         </b-col>
@@ -92,14 +92,15 @@ export default {
   {
         async add_to_favorite() 
         {
-          if(this.recipe.is_favorited)
+          if(this.recipe.is_favoried)
           {
-            this.recipe.is_favorited = false;
+            return false;
           }
           else
           {
           try 
           {
+              this.axios.defaults.withCredentials = true;
               const response = await this.axios.post(
               //   // this.$root.store.server_domain + "/recipes/random",
               //   // "https://test-for-3-2.herokuapp.com/recipes/random"
@@ -108,21 +109,24 @@ export default {
                     recipeId: this.recipe.id
                   }
               );
+              this.axios.defaults.withCredentials = false;
               console.log(response.data);
+              this.$emit('fav');
+              
             } 
             catch (error) 
             {
                   console.log(error);
             }
 
-            this.recipe.is_favorited = true;
+            this.recipe.is_favoried = true;
           }
           this.$forceUpdate();
         },
 
         change_favorite() 
         {
-          if(this.recipe.is_favorited)
+          if(this.recipe.is_favoried)
           {
             return "star-fill";
           }
@@ -142,7 +146,7 @@ export default {
           {
             return "eye-slash";
           }
-        }
+        },
   },
   data() {
     return {
@@ -163,6 +167,7 @@ export default {
       type: Boolean,
       required: true
     }
+
 
     // id: {
     //   type: Number,

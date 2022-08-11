@@ -4,6 +4,26 @@
   <h1>About Us</h1>
   <p>We are Arie and Eden, university students that decided to build this site as part of our work in a course.</p>
   <p>We hope you will enjoy the following background on us and our motivation for this project.</p>
+  <p>Our previous works:</p>
+
+  <p>
+  <a href="https://github.com/Web-Development-Environments-2022/209406164">Personal website for seniors who are in isolation</a>
+  </p>
+
+  <p>
+  <a href="https://github.com/Web-Development-Environments-2022/assignment2-206259848_209406164">Pacman Game</a>
+  </p>
+
+  <p>
+  <a href="https://github.com/Web-Development-Environments-2022/assignment3_2-209406164_206259848">Server side of this recipes website</a>
+  </p>
+
+  <p>
+  <a href="https://github.com/Web-Development-Environments-2022/assignment3-3-209406164_206259848">Client side of this recipes website</a>
+  </p>
+
+  
+
 </div>
 
 <div class="row">
