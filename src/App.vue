@@ -46,7 +46,6 @@ export default {
   {
     async Logout() {
       try {
-        this.$cookies.set('didItWork', "YES")
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.post(
           "http://localhost:3000/Logout"
@@ -57,6 +56,7 @@ export default {
       catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
+        return;
       }
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");

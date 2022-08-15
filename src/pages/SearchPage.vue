@@ -79,7 +79,7 @@
         <b-form-select
           id="resnum"
           v-model="$v.form.resnum.$model"
-          :options="['1', '10', '15']"
+          :options="['2', '10', '15']"
           :state="validateState('resnum')"
         ></b-form-select>
         <b-form-invalid-feedback>
@@ -142,7 +142,7 @@
     </b-form>
     <br>
     <br>
-    <RecipeViewerList @fav="Sort" v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" :show_ing_and_serv="false" title="Search results"/>
+    <RecipeViewerList  v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" :show_ing_and_serv="false" title="Search results"/>
   </div>
   </div>
 
@@ -172,7 +172,7 @@ export default {
                 cuisine: "Any",
                 diet: "Any",
                 intolerance: "Any",
-                resnum: "1",
+                resnum: "2",
                 submitError: undefined,
                 sortpick: "None"
             },
@@ -279,7 +279,7 @@ export default {
 
                 if (sessionStorage.username)
                 {
-                  sessionStorage.search = this.recipes;
+                  sessionStorage.search = JSON.stringify(this.recipes);
                   console.log("sessionStorage.search POST")
                   console.log(sessionStorage.search = JSON.stringify(this.recipes))
                 }
@@ -299,10 +299,6 @@ export default {
         },
 
         Sort() {
-                if (this.form.sortpick == "None")
-                  {
-                    return;
-                  }
 
                 if (this.form.sortpick == "Likes")
                 {
@@ -349,7 +345,7 @@ export default {
             this.$nextTick(() => {
                 this.$v.$reset();
             });
-        }
+        },
     },
     components: { RecipeViewerList }
 };

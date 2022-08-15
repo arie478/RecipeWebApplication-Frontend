@@ -111,7 +111,28 @@ export default {
               );
               this.axios.defaults.withCredentials = false;
               console.log(response.data);
-              this.$emit('fav');
+
+
+              const recipes = JSON.parse(sessionStorage.search);
+
+              for (var i = 0; i < recipes.length; i ++)
+              {
+                //console.log("checking id");
+                //console.log(recipes[i].id);
+                //console.log("looking for");
+                //console.log(this.recipe.id);
+
+                if (recipes[i].id == this.recipe.id)
+                {
+                  recipes[i].is_favoried = true;
+                  //console.log(recipes[i].is_favoried);
+                  sessionStorage.search = JSON.stringify(recipes);
+                  //console.log(sessionStorage.search);
+
+                }
+              }
+
+              
               
             } 
             catch (error) 
