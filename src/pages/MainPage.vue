@@ -1,91 +1,108 @@
 <template>
+
   <div class="container">
-    <h1 class="title">Main Page</h1>
+
+    <!-- <h1 class="title">Main Page</h1> -->
+
     <div class="float-child">
-    <RecipeViewerList title="Random Recipes" :isPreview="true" :show_ing_and_serv="false" :recipes="this.recipes" class="RandomRecipes center"/>
+      <RecipeViewerList title="Explore this Recipes" :recipes="randomRecipes" :isPreview="true" :show_ing_and_serv="false" />
     </div>
 
-    <!-- <router-link v-if="!$root.store.username" to="/login" tag="button">You need to Login to vue this</router-link> -->
+      <div class="float-child">
+        <LoginPage v-if="!$root.store.username" />
+      </div>
+
     <div class="float-child">
-    <LoginPage v-if="!$root.store.username"/>
-    </div>
-    <!-- {{ !$root.store.username }} -->
-    <div class="float-child">
-    <RecipeViewerList
-      title="Last Viewed Recipes"
-      :class="{
-        RandomRecipes: true,
-        blur: !$root.store.username,
-        center: true
-      }"
-      :isPreview="true"
-      disabled
-    v-if="$root.store.username"></RecipeViewerList>
+      <RecipeViewerList v-if="this.$root.store.username" title="Last Viewed Recipes" :recipes="lastViewedRecipes" :isPreview="true" :show_ing_and_serv="false" disabled />
     </div>
 
-    <!-- <div
-       width: 50%;
-       float: left; style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
-    >
-      Centeredasdasdad
-    </div>-->
   </div>
 </template>
 
 <script>
+
 import RecipeViewerList from "../components/RecipeViewerList";
 import LoginPage from "./LoginPage.vue";
-export default {
-  components: {
+
+export default 
+{
+  components:
+  {
     RecipeViewerList,
     LoginPage
-},
-
-mounted() {
-    this.updateRandomRecipes();
   },
-   data() {
+
+  data() {
     return {
-      recipes: []
+      randomRecipes: [],
+      lastViewedRecipes: []
     };
   },
-  methods: {
+
+  methods:
+  {
     async updateRandomRecipes() {
       try {
-        // const response = await this.axios.get(
-        //   // this.$root.store.server_domain + "/recipes/random",
-        //   // "https://test-for-3-2.herokuapp.com/recipes/random"
-        //   "http://localhost:3000/recipes/random",
-        // );
+        this.axios.defaults.withCredentials = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/random",
+        );
+        this.axios.defaults.withCredentials = false;
 
-        this.recipes = [];
-        //this.recipes.push(...response.data);
-      } catch (error) {
-        console.log(error);
+        console.log(response);
+        this.randomRecipes = [];
+        this.randomRecipes.push(...response.data);
+      }
+      catch (err) {
+        console.log(err.response);
+      }
+    },
+
+    async updateLastViewedRecipes() {
+      if (this.$root.store.username) {
+        try {
+          this.axios.defaults.withCredentials = true;
+          const response = await this.axios.get(
+            "http://localhost:3000/users/getLastWatched",
+          );
+          this.axios.defaults.withCredentials = false;
+
+          console.log(response);
+          this.lastViewedRecipes = [];
+          this.lastViewedRecipes.push(...response.data);
+        }
+        catch (err) {
+          console.log(err.response);
+        }
       }
     }
-  }
+  },
 
+  mounted() {
+    this.updateRandomRecipes();
+    this.updateLastViewedRecipes();
+  },
 };
 </script>
 
 <style lang="scss" scoped>
-.RandomRecipes {
-  margin: 10px 0 10px;
-}
+// .RandomRecipes {
+//   margin: 10px 0 10px;
+// }
+
 .blur {
-  -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
+  -webkit-filter: blur(5px);
+  /* Safari 6.0 - 9.0 */
   filter: blur(2px);
 }
+
 ::v-deep .blur .recipe-preview {
   pointer-events: none;
   cursor: default;
 }
 
-.float-child 
-{
-    width: 50%;
-    float: left;
-}  
-
+.float-child {
+  width: 50%;
+  float: left;
+}
 </style>

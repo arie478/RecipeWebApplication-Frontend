@@ -2,7 +2,6 @@ import Vue from "vue";
 import App from "./App.vue";
 import VueAxios from "vue-axios";
 import axios from "axios";
-
 import routes from "./routes";
 
 import VueCookies from 'vue-cookies'
@@ -26,70 +25,40 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue)
+
 // Optionally install the BootstrapVue icon components plugin
 Vue.use(IconsPlugin)
 
-import {
-  FormGroupPlugin,
-  FormPlugin,
-  FormInputPlugin,
-  ButtonPlugin,
-  CardPlugin,
-  NavbarPlugin,
-  FormSelectPlugin,
-  AlertPlugin,
-  ToastPlugin,
-  LayoutPlugin,
-} from "bootstrap-vue";
-[
-  FormGroupPlugin,
-  FormPlugin,
-  FormInputPlugin,
-  ButtonPlugin,
-  CardPlugin,
-  NavbarPlugin,
-  FormSelectPlugin,
-  AlertPlugin,
-  ToastPlugin,
-  LayoutPlugin,
-].forEach((x) => Vue.use(x));
+import { FormGroupPlugin, FormPlugin, FormInputPlugin, ButtonPlugin, CardPlugin, NavbarPlugin, FormSelectPlugin, AlertPlugin, ToastPlugin, LayoutPlugin } from "bootstrap-vue";
+[FormGroupPlugin, FormPlugin, FormInputPlugin, ButtonPlugin, CardPlugin, NavbarPlugin, FormSelectPlugin, AlertPlugin, ToastPlugin, LayoutPlugin].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 
 axios.interceptors.request.use(
-  function(config) {
-    // Do something before request is sent
-    return config;
-  },
-  function(error) {
-    // Do something with request error
-    return Promise.reject(error);
-  }
+  function (config) { return config; },
+  function (error) { return Promise.reject(error); }
 );
 
 // Add a response interceptor
 axios.interceptors.response.use(
-  function(response) {
-    // Do something with response data
-    return response;
-  },
-  function(error) {
-    // Do something with response error
-    return Promise.reject(error);
-  }
+  function (response) { return response; },
+  function (error) { return Promise.reject(error); }
 );
 
 Vue.use(VueAxios, axios);
 
 Vue.config.productionTip = false;
 
-const shared_data = {
+const shared_data =
+{
   username: localStorage.username,
+
   login(username) {
     localStorage.setItem("username", username);
     sessionStorage.setItem("username", username);
     this.username = username;
     console.log("login", this.username);
   },
+
   logout() {
     console.log("logout");
     localStorage.removeItem("username");
@@ -97,17 +66,21 @@ const shared_data = {
     this.username = undefined;
   },
 };
+
 console.log(shared_data);
 // Vue.prototype.$root.store = shared_data;
 
 new Vue({
   router,
+
   data() {
     return {
       store: shared_data,
     };
   },
-  methods: {
+
+  methods:
+  {
     toast(title, content, variant = null, append = false) {
       this.$bvToast.toast(`${content}`, {
         title: `${title}`,
@@ -119,5 +92,7 @@ new Vue({
       });
     },
   },
+
   render: (h) => h(App),
+
 }).$mount("#app");

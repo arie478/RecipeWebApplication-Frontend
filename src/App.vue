@@ -1,77 +1,66 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
-        <router-link :to="{ name: 'search' }">Search</router-link>|
-      <router-link :to="{ name: 'about' }">About</router-link>|
-        <!-- <router-link :to="{ path: '/recipe/641958' }">Recipe 641958</router-link>| -->
-      <!-- {{ !$root.store.username }} -->
-      <span v-if="!$root.store.username">
-        Hello Guest
-        <router-link :to="{ name: 'register' }">Register</router-link>|
-        <router-link :to="{ name: 'login' }">Login</router-link>|
-      </span>
-      <span v-else>
-        <div>
-          <b-dropdown id="dropdown-divider" :text='$root.store.username + "`s profile"' class="m-2">
-            <b-dropdown-item :to="{name: 'favorites'}"> My Favorites </b-dropdown-item>
-            <b-dropdown-item :to="{name: 'myRecipes'}"> My Recipes </b-dropdown-item>
-            <b-dropdown-item :to="{name: 'familyRecipes'}"> Family Recipes </b-dropdown-item>
-            <b-dropdown-item :to="{name: 'createRecipe'}"> Create New Recipe </b-dropdown-item>
+
+    <b-navbar toggleable="xl" variant="danger">
+
+      <b-navbar-brand :to="{ name: 'main' }">FoodIsGood</b-navbar-brand>
+      <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+      <b-collapse id="nav-collapse" is-nav>
+        <b-navbar-nav>
+          <b-nav-item :to="{ name: 'main' }">Home</b-nav-item>
+          <b-nav-item :to="{ name: 'search' }">Search</b-nav-item>
+          <b-nav-item :to="{ name: 'about' }">About</b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" v-if="!$root.store.username">
+          <b-nav-item>Hello Guest!</b-nav-item>
+          <b-nav-item :to="{ name: 'login' }">Login</b-nav-item>
+          <b-nav-item :to="{ name: 'register' }">Register</b-nav-item>
+        </b-navbar-nav>
+
+        <b-navbar-nav class="ml-auto" v-else>
+          <b-nav-item-dropdown right>
+            <template #button-content v-if="$root.store.username">{{ $root.store.username }}'s profile</template>
+
+            <!-- <h1 class="title" v-if="$root.store.username">WELCOME {{ $root.store.username }}</h1> -->
+            <template v-else #button-content> User </template>
+            <b-dropdown-item :to="{ name: 'favorites' }">Favorite Recipes</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'myRecipes' }">Personal Recipes</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'familyRecipes' }">Family Recipes</b-dropdown-item>
+            <b-dropdown-item :to="{ name: 'createRecipe' }">Create Personal Recipe</b-dropdown-item>
             <b-dropdown-divider></b-dropdown-divider>
-            <b-dropdown-item-button @click="Logout"> Logout </b-dropdown-item-button>
-          </b-dropdown>
-        </div>
-        <!-- {{ $root.store.username }}
-        <router-link :to="{ name: 'main' }"> My Favorites</router-link>|
-        <router-link :to="{ name: 'main' }"> My Recipes</router-link>|
-        <router-link :to="{ name: 'main' }"> Family Recipes</router-link>|
-        <router-link :to="{ name: 'main' }"> Create New Recipe</router-link>|
-        <button @click="Logout">Logout</button>| -->
-      </span>
-    </div>
+            <b-dropdown-item @click="Logout">Log Out</b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
     <router-view />
   </div>
 </template>
 
 <script>
-
 export default {
   name: "App",
-  methods: {
-    async Logout() {
 
-try {
-        
+  methods:
+  {
+    async Logout() {
+      try {
         this.$cookies.set('didItWork', "YES")
         this.axios.defaults.withCredentials = true;
-
         const response = await this.axios.post(
-          // "https://test-for-3-2.herokuapp.com/user/Login",
-          // this.$root.store.server_domain +"/Login",
-          // "http://132.72.65.211:80/Login",
-          // "http://132.73.84.100:80/Login",
           "http://localhost:3000/Logout"
         );
-
         this.axios.defaults.withCredentials = false;
-        // console.log(response);
-        // this.$root.loggedIn = true;
-
-      } catch (err) {
+        console.log(response);
+      }
+      catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
-
       this.$root.store.logout();
       this.$root.toast("Logout", "User logged out successfully", "success");
-
-
-
-
-      this.$router.push("/").catch(() => {
-        this.$forceUpdate();
-      });
+      this.$router.push("/").catch(() => { this.$forceUpdate(); });
     }
   }
 };
@@ -80,24 +69,16 @@ try {
 <style lang="scss">
 @import "@/scss/form-style.scss";
 
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  color: #2c3e50;
-  min-height: 100vh;
-}
-
 #nav {
   padding: 30px;
 }
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #000000;
 }
 
 #nav a.router-link-exact-active {
-  color: #42b983;
+  color: #000000;
 }
 </style>
