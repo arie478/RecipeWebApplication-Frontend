@@ -1,34 +1,96 @@
 <template>
   <div class="container">
     <div v-if="recipe">
+      <br>
+     <b-card
+        border-variant="secondary"
+         header-border-variant="secondary"
+        :header=  recipe.title
+        align="center"
+      >
+        <b-card-text>
       <div class="recipe-header mt-3 mb-4">
-        <h1>{{ recipe.title }}</h1>
+       
         <img :src="recipe.image" class="center" />
+  
       </div>
       <div class="recipe-body">
         <div class="wrapper">
           <div class="wrapped">
-            <div class="mb-3">
-              <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+
+            <b-card border-variant="info" header="Usefull information" align="center">
+                            <b-card-text>
+            <div class = "mb-3">
+               <b-row>
+                  <b-col v-if="recipe.glutenFree" >
+                    <b-img src="../assets/gluten_free_text.png" height="50%" width="50%"></b-img>
+                  </b-col>
+                  <b-col v-if="!recipe.glutenFree" >
+                    <b-img src="../assets/gluten_text.png" height="50%" width="50%"></b-img>
+                  </b-col>
+                  <b-col v-if="recipe.vegetarian">
+                    <b-img src="../assets/vegetarian_text.png" height="50%" width="50"></b-img>
+                  </b-col>
+                  <b-col v-if="recipe.began">
+                    <b-img src="../assets/vegan_text.png" height="50%" width="50%"></b-img>
+                  </b-col>
+
+                  <b-col v-if="$root.store.username">
+                    <b-button :disabled="this.recipe.is_favoried" @click="add_to_favorite" variant="outline-warning" class="mb-2">
+                      <b-icon  :icon="this.change_favorite()"></b-icon>
+                    </b-button>
+                  </b-col> 
+                  <b-col>
+                    <b-icon  :icon="this.change_watched()" scale="2" shift-v="-8"></b-icon>
+                  </b-col>
+
+                </b-row>
             </div>
-            Ingredients:
-            <ul>
-              <li
-                v-for="(r, index) in recipe.ingredients.flatten()"
-                :key="index + '_' + r.id"
+
+            <div class="mb-3">
+               
+                  <div> Ready in  {{ recipe.readyInMinutes }} minutes</div>
+                  <div> {{ recipe.aggregateLikes }} people liked this recipe</div>
+                  <div> Makes {{ recipe.servings }} servings </div>
+            </div>
+                </b-card-text>
+              </b-card>
+
+            <br>
+
+            <b-card
+              border-variant="secondary"
+              header="Ingredients"
+              header-border-variant="secondary"
+              align="center"
               >
-                {{ r }}
-              </li>
-            </ul>
+            <b-card-text align="left">
+                <ul>
+                  <li
+                    v-for="(r, index) in recipe.ingredients.flat()"
+                    :key="index + '_' + r.id"
+                  >
+                    {{ r }}
+                  </li>
+                </ul>
+            </b-card-text>
+            </b-card>
           </div>
           <div class="wrapped">
-            Instructions:
-            <ol>
-              <li v-for="s in recipe.instructions.flatten()" :key="s">
-                {{ s }}
-              </li>
-            </ol>
+             <b-card
+              border-variant="secondary"
+              header="Instructions"
+              header-border-variant="secondary"
+              align="center"
+              >
+                <b-card-text align="left">
+                  <ol>
+                    <li v-for="s in recipe.instructions.flat()" :key="s">
+                      {{ s }}
+                    </li>
+                  </ol>
+                </b-card-text>
+              </b-card>
           </div>
         </div>
       </div>
@@ -37,6 +99,8 @@
       {{ recipe }}
     </pre
       > -->
+      </b-card-text>
+      </b-card>
     </div>
   </div>
 </template>
@@ -48,11 +112,93 @@ export default {
       recipe: null
     };
   },
+  methods: 
+  {
+async add_to_favorite() 
+        {
+          if(this.recipe.is_favoried)
+          {
+            return false;
+          }
+          else
+          {
+          try 
+          {
+              this.axios.defaults.withCredentials = true;
+              const response = await this.axios.post(
+              //   // this.$root.store.server_domain + "/recipes/random",
+              //   // "https://test-for-3-2.herokuapp.com/recipes/random"
+                "http://localhost:3000/users/addToFavorites",
+                  {
+                    recipeId: this.recipe.id
+                  }
+              );
+              this.axios.defaults.withCredentials = false;
+              console.log(response.data);
+
+
+              const recipes = JSON.parse(sessionStorage.search);
+
+              for (var i = 0; i < recipes.length; i ++)
+              {
+                //console.log("checking id");
+                //console.log(recipes[i].id);
+                //console.log("looking for");
+                //console.log(this.recipe.id);
+
+                if (recipes[i].id == this.recipe.id)
+                {
+                  recipes[i].is_favoried = true;
+                  //console.log(recipes[i].is_favoried);
+                  sessionStorage.search = JSON.stringify(recipes);
+                  //console.log(sessionStorage.search);
+
+                }
+              }
+
+              
+              
+            } 
+            catch (error) 
+            {
+                  console.log(error);
+            }
+
+            this.recipe.is_favoried = true;
+          }
+          this.$forceUpdate();
+        },
+
+        change_favorite() 
+        {
+          if(this.recipe.is_favoried)
+          {
+            return "star-fill";
+          }
+          else
+          {
+            return "star";
+          }
+        },
+
+        change_watched() 
+        {
+          if(this.recipe.is_watched)
+          {
+            return "eye-fill";
+          }
+          else
+          {
+            return "eye-slash";
+          }
+        },
+  },
   async created() {
     try {
       let response;
       // response = this.$route.params.response;
       try {
+        this.axios.defaults.withCredentials = true;
         response = await this.axios.get(
           // "https://test-for-3-2.herokuapp.com/recipes/info",
           // this.$root.store.server_domain + "/recipes/info",
@@ -61,6 +207,7 @@ export default {
           //   params: { recipeId: this.$route.params.recipeId }
           // }
         );
+        this.axios.defaults.withCredentials = false;
 
         console.log("response.status", response.status);
         if (response.status !== 200) this.$router.replace("/NotFound");
@@ -113,9 +260,13 @@ export default {
 <style scoped>
 .wrapper {
   display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .wrapped {
   width: 50%;
+  margin-left: 1%;
+  
 }
 .center {
   display: block;
