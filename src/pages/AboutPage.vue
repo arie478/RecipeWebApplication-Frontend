@@ -38,7 +38,7 @@
 
       <div class="column">
         <div class="card">
-          <img src="../assets/pacman_2.png" style="width:100%;height:200px">
+          <img src="../assets/pacman.png" style="width:100%;height:200px">
           <div class="container">
             <h2 style="text-align:center">Pacman Game</h2>
             <p style="text-align:center" class="title">Assignment 2</p>
@@ -57,7 +57,7 @@
 
       <div class="column">
         <div class="card">
-          <img src="../assets/bgu-1.jpg" alt="BGU" style="width:100%;height:200px">
+          <img src="../assets/bgu.jpg" alt="BGU" style="width:100%;height:200px">
           <div class="container">
             <h2 style="text-align:center">Ben-Gurion University</h2>
             <p style="text-align:center" class="title">Our institute</p>
@@ -83,7 +83,7 @@
 
       <div class="column">
         <div class="card">
-          <img src="../assets/diy-food-photography-backgrounds.jpg" alt="Food" style="width:100%;height:200px">
+          <img src="../assets/food_about.jpg" alt="Food" style="width:100%;height:200px">
           <div class="container">
             <h2 style="text-align:center">Food</h2>
             <p style="text-align:center" class="title">Our passion</p>

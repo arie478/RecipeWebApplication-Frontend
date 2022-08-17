@@ -7,7 +7,7 @@
         <b-card header="Jewish Chicken Onion Stew - By Shulamit Katz" align="center">
           <b-card-text>
             <div>
-              <b-img src="../assets/chicken-onion-stew-slowcooker.webp" width="550px" height="450px" />
+              <b-img class="img" src="../assets/Chicken_Onion_Stew.webp" />
             </div>
             <div class="recipe-body">
               <div class="wrapper">
@@ -62,14 +62,15 @@
         <b-card header="Moroccan Fish - By Sigal Hai" align="center">
           <b-card-text>
             <div>
-              <b-img src="../assets/Moroccan_Fish_3.jpg" width="550px" height="450px" />
+              <b-img class="img" src="../assets/Moroccan_Fish.jpg" />
             </div>
             <div class="recipe-body">
               <div class="wrapper">
                 <br>
                 <b-card border-variant="info" header="About the recipe" align="center">
                   <b-card-text align="left">
-                    This recipe ....
+                    In my family, Moroccan fish serves at the beginning of every Friday evening meal, before delving into a larger feast of chicken and meat, served alongside up to dozens of spreads, dips and salads.
+                    This dish is even more delicious the next day, when the flavors and spiciness have mingled, sopped up with rich, doughy Challah bread.
                   </b-card-text>
                 </b-card>
                 <br>
@@ -100,7 +101,8 @@
                     <ol>
                       <li>In a large pan with cover, heat 2 tablespoon extra virgin olive oil (I used Private Reserve) over medium heat until shimmering but not smoking.</li>
                       <li>Add minced garlic and cook very briefly, tossing regularly, until fragrant. Add tomato paste, diced tomato, and bell peppers. Cook for 3 to 4 minutes over medium heat, tossing frequently.</li>
-                      <li>Now, add chickpeas, water, cilantro, and sliced garlic. Season with kosher salt and pepper. Stir in ½ teaspoon Ras El Hanout spice mixture. Raise heat, if needed, and bring to a boil. Lower heat. Cover part-way and let simmer for about 20 minutes. (Check occasionally and add a little water if needed.)</li>
+                      <li>Now, add chickpeas, water, cilantro, and sliced garlic. Season with kosher salt and pepper. Stir in ½ teaspoon Ras El Hanout spice mixture. Raise heat, if needed, and bring to a boil. Lower heat. Cover part-way and let simmer for about 20 minutes. (Check occasionally and
+                        add a little water if needed.)</li>
                       <li>Meanwhile, in a small mixing bowl, combine remaining Ras El Hanout with cumin and paprika. Season the fish with kosher salt and pepper and the spice mixture on both sides. Add a generous drizzle of extra virgin olive oil. Work the fish to make sure it's well coated with the
                         spices and the olive oil.</li>
                       <li>When ready, add the season fish to the pan, and make sure to nestle the fish pieces into the saucy chickpea and tomato mixture. Ladle a bit of the sauce on top of the fish. Add lemon juice and lemon slices. Cook another 10 to 15 minutes over medium-low until the fish is
@@ -122,14 +124,16 @@
         <b-card header="Tripolitan Mafrum - By Gita" align="center">
           <b-card-text>
             <div>
-              <b-img src="../assets/Mafrum.jpg" width="550px" height="450px" />
+              <b-img class="img" src="../assets/Mafrum.jpg" />
             </div>
             <div class="recipe-body">
               <div class="wrapper">
                 <br>
                 <b-card border-variant="info" header="About the recipe" align="center">
                   <b-card-text align="left">
-                    This recipe ....
+                    This mafrum recipe will throw you back to the 1800's when there was a thriving Jewish population in Libya that cooked amazing mafrum!
+                    Traditionally served over couscous to sop up all the tomato juices and fat from the meat, the flavor of the warm ras al hanout spices 
+                    are brought forward by the last squeeze of lemon that my grandmother squeezes over his mafrum.
                   </b-card-text>
                 </b-card>
                 <br>
@@ -201,9 +205,16 @@ export default {
 
 <style scoped>
 .row {
-  /* display: block; */
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+}
+
+.img {
+  width: 550px;
+  height: 400px;
+  align-items: center;
+  padding: 0;
+  margin: auto;
 }
 </style>

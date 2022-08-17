@@ -79,7 +79,7 @@ export default
   },
 
   mounted() {
-    // this.updateRandomRecipes();
+    this.updateRandomRecipes();
     this.updateLastViewedRecipes();
   },
 };

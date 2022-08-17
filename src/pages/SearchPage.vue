@@ -79,7 +79,7 @@
         <b-form-select
           id="resnum"
           v-model="$v.form.resnum.$model"
-          :options="['2', '10', '15']"
+          :options="['5', '10', '15']"
           :state="validateState('resnum')"
         ></b-form-select>
         <b-form-invalid-feedback>
