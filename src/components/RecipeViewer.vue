@@ -2,10 +2,32 @@
 <div class="recipe-box">
   <div class="recipe-preview">
   <router-link
+    v-if="personal == true"
+    :to="{ path: '/recipe/' + recipe.id + '/personal'
+    //, params: { recipeId: recipe.id } 
+    }"
+  >
+
+
+    <div class="recipe-body">
+      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+    </div>
+    <div class="recipe-footer">
+      <div :title="recipe.title" class="recipe-title">
+        <h4>{{ recipe.title }}</h4>
+      </div>
+
+    </div>
+  </router-link>
+
+  <router-link
+    v-if="personal == false"
     :to="{ path: '/recipe/' + recipe.id
     //, params: { recipeId: recipe.id } 
     }"
   >
+
+
     <div class="recipe-body">
       <img v-if="image_load" :src="recipe.image" class="recipe-image" />
     </div>
@@ -34,7 +56,7 @@
       </b-row>
 
       <br>
-      <b-row v-if="$root.store.username">
+      <b-row v-if="$root.store.username && personal == false">
          <b-col> 
           <b-button :disabled="this.recipe.is_favoried" @click="add_to_favorite" variant="outline-warning" class="mb-2">
             <b-icon  :icon="this.change_favorite()"></b-icon>
@@ -171,7 +193,7 @@ export default {
   },
   data() {
     return {
-      image_load: false
+      image_load: false,
     };
   },
   props: {
@@ -187,6 +209,11 @@ export default {
     {
       type: Boolean,
       required: true
+    },
+    personal:
+    {
+     type: Boolean,
+     required: false
     }
 
 

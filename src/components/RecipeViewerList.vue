@@ -6,7 +6,7 @@
     </h3>
     <b-col>
       <b-row v-for="r in recipes" :key="r.id">
-        <RecipeViewer class="recipeFull" :recipe="r" :show_ing_and_serv="show_ing_and_serv" :isPreview="isPreview" />
+        <RecipeViewer class="recipeFull" :recipe="r" :show_ing_and_serv="show_ing_and_serv" :isPreview="isPreview" :personal="personal" />
       </b-row>
     </b-col>
   </b-container>
@@ -38,6 +38,11 @@ export default {
     {
       type: Boolean,
       required: true
+    },
+    personal:
+    {
+    type: Boolean,
+    required: false
     }
   },
 
