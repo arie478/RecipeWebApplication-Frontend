@@ -35,12 +35,12 @@
                     <b-img src="../assets/vegan_text.png" height="50%" width="50%"></b-img>
                   </b-col>
 
-                  <b-col v-if="$root.store.username">
+                  <b-col v-if="$root.store.username && this.$route.params.personal != 'personal'">
                     <b-button :disabled="this.recipe.is_favoried" @click="add_to_favorite" variant="outline-warning" class="mb-2">
                       <b-icon  :icon="this.change_favorite()"></b-icon>
                     </b-button>
                   </b-col> 
-                  <b-col>
+                  <b-col v-if="$root.store.username && this.$route.params.personal != 'personal'">
                     <b-icon  :icon="this.change_watched()" scale="2" shift-v="-8"></b-icon>
                   </b-col>
 
@@ -197,29 +197,59 @@ async add_to_favorite()
     try {
       let response;
       // response = this.$route.params.response;
-      try {
-        this.axios.defaults.withCredentials = true;
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          // this.$root.store.server_domain + "/recipes/info",
-          "http://localhost:3000/recipes/" + this.$route.params.recipeId,
-          // {
-          //   params: { recipeId: this.$route.params.recipeId }
-          // }
-        );
-        this.axios.defaults.withCredentials = false;
 
-        console.log("response.status", response.status);
-        if (response.status !== 200) this.$router.replace("/NotFound");
-      } catch (error) {
-        console.log("error.response.status", error.response.status);
-        this.$router.replace("/NotFound");
-        return;
+      console.log(this.$route.params);
+      console.log(this.$route.params.personal);
+
+      if (this.$route.params.personal == "personal")
+      {
+          this.axios.defaults.withCredentials = true;
+          response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/recipes/info",
+            // this.$root.store.server_domain + "/recipes/info",
+            "http://localhost:3000/users/getFullPersonalRecipes/" + this.$route.params.recipeId,
+            // {
+            //   params: { recipeId: this.$route.params.recipeId }
+            // }
+          );
+           this.axios.defaults.withCredentials = false;
+
+          console.log("response.status", response.status);
+          if (response.status !== 200) this.$router.replace("/NotFound");
+
+          console.log("Personal recipe responde:");
+          console.log(response.data);
+          this.recipe = response.data[0];
+          console.log(this.recipe);
+      }
+      else
+      {
+
+        try {
+          this.axios.defaults.withCredentials = true;
+          response = await this.axios.get(
+            // "https://test-for-3-2.herokuapp.com/recipes/info",
+            // this.$root.store.server_domain + "/recipes/info",
+            "http://localhost:3000/recipes/" + this.$route.params.recipeId,
+            // {
+            //   params: { recipeId: this.$route.params.recipeId }
+            // }
+          );
+          this.axios.defaults.withCredentials = false;
+
+          console.log("response.status", response.status);
+          if (response.status !== 200) this.$router.replace("/NotFound");
+
+          this.recipe = response.data;
+          console.log(this.recipe);
+
+        } catch (error) {
+          console.log("error.response.status", error.response.status);
+          this.$router.replace("/NotFound");
+          return;
+        }
       }
 
-      console.log(response.data);
-
-      this.recipe = response.data;
 
       // let {
       //   analyzedInstructions,

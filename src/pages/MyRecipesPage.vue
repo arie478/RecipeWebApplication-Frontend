@@ -5,6 +5,7 @@
     :recipes="myRecipes"
     :isPreview="true"
     :show_ing_and_serv="false"
+    :personal="true"
     />
   </div>
 </template>
