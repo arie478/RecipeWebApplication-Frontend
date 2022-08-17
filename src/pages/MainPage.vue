@@ -45,7 +45,8 @@ export default
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.get(
-          "http://localhost:3000/recipes/random",
+          // "http://localhost:3000/recipes/random",
+          "https://foodisgood.cs.bgu.ac.il/recipes/random",
         );
         this.axios.defaults.withCredentials = false;
 
@@ -63,7 +64,8 @@ export default
         try {
           this.axios.defaults.withCredentials = true;
           const response = await this.axios.get(
-            "http://localhost:3000/users/getLastWatched",
+            // "http://localhost:3000/users/getLastWatched",
+            "https://foodisgood.cs.bgu.ac.il/users/getLastWatched",
           );
           this.axios.defaults.withCredentials = false;
 

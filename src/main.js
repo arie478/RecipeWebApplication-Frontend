@@ -63,6 +63,7 @@ const shared_data =
     console.log("logout");
     localStorage.removeItem("username");
     sessionStorage.removeItem("username");
+    sessionStorage.removeItem("search");
     this.username = undefined;
   },
 };

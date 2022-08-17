@@ -31,7 +31,8 @@ export default
         try {
           this.axios.defaults.withCredentials = true;
           const response = await this.axios.get(
-            "http://localhost:3000/users/getPreviewPersonalRecipes"
+            // "http://localhost:3000/users/getPreviewPersonalRecipes"
+            "https://foodisgood.cs.bgu.ac.il/users/getPreviewPersonalRecipes"
           );
           this.axios.defaults.withCredentials = false;
 

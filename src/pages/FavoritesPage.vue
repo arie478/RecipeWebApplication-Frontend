@@ -30,7 +30,8 @@ export default
         try {
           this.axios.defaults.withCredentials = true;
           const response = await this.axios.get(
-            "http://localhost:3000/users/getFavorites"
+            // "http://localhost:3000/users/getFavorites"
+            "https://foodisgood.cs.bgu.ac.il/users/getFavorites"
           );
           this.axios.defaults.withCredentials = false;
 

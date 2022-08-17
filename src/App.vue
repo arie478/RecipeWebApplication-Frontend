@@ -55,6 +55,7 @@
         label-for="title"
       >
         <b-form-input
+          :disabled="canEdit"
           id="title"
           v-model="$v.form.title.$model"
           type="text"
@@ -76,6 +77,7 @@
         label-for="readyInMinutes"
       >
         <b-form-input
+          :disabled="canEdit"
           id="readyInMinutes"
           v-model="$v.form.readyInMinutes.$model"
           type="text"
@@ -96,6 +98,7 @@
         label-for="image"
       >
         <b-form-input
+         :disabled="canEdit"
           id="image"
           v-model="$v.form.image.$model"
           type="text"
@@ -117,6 +120,7 @@
         label-for="vegan"
       >
         <b-form-select
+         :disabled="canEdit"
           id="vegan"
           v-model="$v.form.vegan.$model"
           :options="['No', 'Yes']"
@@ -134,6 +138,7 @@
         label-for="vegetarian"
       >
         <b-form-select
+         :disabled="canEdit"
           id="vegetarian"
           v-model="$v.form.vegetarian.$model"
           :options="['No', 'Yes']"
@@ -151,6 +156,7 @@
         label-for="glutenFree"
       >
         <b-form-select
+         :disabled="canEdit"
           id="glutenFree"
           v-model="$v.form.glutenFree.$model"
           :options="['No', 'Yes']"
@@ -168,6 +174,7 @@
         label-for="ingredients"
       >
        <b-form-textarea
+        :disabled="canEdit"
         id="ingredients"
         v-model="ingredients"
         placeholder="Write one ingredient per line, for example: 1 large onion"
@@ -183,6 +190,7 @@
         label-for="instructions"
       >
        <b-form-textarea
+        :disabled="canEdit"
         id="instructions"
         v-model="instructions"
         placeholder="Write one instructions per line, for example: Dice the onion, put on the side for later"
@@ -198,6 +206,7 @@
         label-for="servings"
       >
         <b-form-input
+         :disabled="canEdit"
           id="servings"
           v-model="$v.form.servings.$model"
           type="text"
@@ -210,7 +219,6 @@
           Servings count should be a number
         </b-form-invalid-feedback>
       </b-form-group>
-    
 
       <b-button type="reset" variant="danger">Reset</b-button>
       <b-button
@@ -220,6 +228,7 @@
         class="ml-5 w-75"
         >Create</b-button
       >
+
     </b-form>
     <b-alert
       class="mt-2"
@@ -228,11 +237,9 @@
       dismissible
       show
     >
-      Register failed: {{ form.submitError }}
+      {{ form.submitError }}
     </b-alert>
     </b-modal>
-
-
 
     <router-view />
   </div>
@@ -272,7 +279,8 @@ export default {
       errors: [],
       validated: false,
       ingredients: "",
-      instructions: ""
+      instructions: "",
+      canEdit:false
     };
   },
 
@@ -304,7 +312,8 @@ export default {
       try {
         this.axios.defaults.withCredentials = true;
         const response = await this.axios.post(
-          "http://localhost:3000/Logout"
+          "https://foodisgood.cs.bgu.ac.il/Logout"
+          // "http://localhost:3000/Logout"
         );
         this.axios.defaults.withCredentials = false;
         console.log(response);
@@ -342,7 +351,8 @@ export default {
         const response = await this.axios.post(
           // "https://test-for-3-2.herokuapp.com/user/Register",
           // this.$root.store.server_domain + "/Register",
-          "http://localhost:3000/users/createPersonalRecipe",
+          // "http://localhost:3000/users/createPersonalRecipe",
+          "https://foodisgood.cs.bgu.ac.il/users/createPersonalRecipe",
           { 
             title: this.form.title,
             readyInMinutes: this.form.readyInMinutes,
@@ -358,6 +368,8 @@ export default {
          this.axios.defaults.withCredentials = false;
          
         console.log(response);
+        this.form.submitError = "Recipe created! You may now close this window."
+        this.canEdit = true;
       }
       catch (err) 
       {
@@ -393,7 +405,8 @@ export default {
         
       };
       this.ingredients= "",
-      this.instructions= ""
+      this.instructions= "",
+      this.canEdit= false,
 
       this.$nextTick(() => { this.$v.$reset(); });
     },

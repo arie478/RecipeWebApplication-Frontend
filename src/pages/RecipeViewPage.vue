@@ -128,7 +128,8 @@ async add_to_favorite()
               const response = await this.axios.post(
               //   // this.$root.store.server_domain + "/recipes/random",
               //   // "https://test-for-3-2.herokuapp.com/recipes/random"
-                "http://localhost:3000/users/addToFavorites",
+                // "http://localhost:3000/users/addToFavorites",
+                "https://foodisgood.cs.bgu.ac.il/users/addToFavorites",
                   {
                     recipeId: this.recipe.id
                   }
@@ -207,7 +208,8 @@ async add_to_favorite()
           response = await this.axios.get(
             // "https://test-for-3-2.herokuapp.com/recipes/info",
             // this.$root.store.server_domain + "/recipes/info",
-            "http://localhost:3000/users/getFullPersonalRecipes/" + this.$route.params.recipeId,
+            // "http://localhost:3000/users/getFullPersonalRecipes/" + this.$route.params.recipeId,
+            "https://foodisgood.cs.bgu.ac.il/users/getFullPersonalRecipes/" + this.$route.params.recipeId,
             // {
             //   params: { recipeId: this.$route.params.recipeId }
             // }
@@ -230,7 +232,8 @@ async add_to_favorite()
           response = await this.axios.get(
             // "https://test-for-3-2.herokuapp.com/recipes/info",
             // this.$root.store.server_domain + "/recipes/info",
-            "http://localhost:3000/recipes/" + this.$route.params.recipeId,
+            // "http://localhost:3000/recipes/" + this.$route.params.recipeId,
+            "https://foodisgood.cs.bgu.ac.il/recipes/" + this.$route.params.recipeId,
             // {
             //   params: { recipeId: this.$route.params.recipeId }
             // }

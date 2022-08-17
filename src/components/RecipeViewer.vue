@@ -107,7 +107,8 @@ export default {
           const response = await this.axios.post(
             //   // this.$root.store.server_domain + "/recipes/random",
             //   // "https://test-for-3-2.herokuapp.com/recipes/random"
-            "http://localhost:3000/users/addToFavorites",
+            // "http://localhost:3000/users/addToFavorites",
+            "https://foodisgood.cs.bgu.ac.il/users/addToFavorites",
             {
               recipeId: this.recipe.id
             }
