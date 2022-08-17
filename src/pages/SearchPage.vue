@@ -1,69 +1,83 @@
 <template>
   <div class="container">
-    <h1 class="title">Search</h1>
-    <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
-      <b-form-group id="input-group-recipename" label-cols-sm="3" label="Recipe Name:" label-for="recipename">
-        <b-form-input id="recipename" v-model="$v.form.recipename.$model" type="text"
-          :state="validateState('recipename')"></b-form-input>
-        <b-form-invalid-feedback v-if="!$v.form.recipename.required">
-          Recipe name is required
-        </b-form-invalid-feedback>
-      </b-form-group>
+    <br>
+    <b-card border-variant="secondary" header-border-variant="secondary" header="Search" align="center">
+      <b-card-text>
+        <b-form @submit.prevent="onSearch" @reset.prevent="onReset">
+          <b-form-group id="input-group-recipename" label-cols-sm="3" label="Recipe Name:" label-for="recipename">
+            <b-form-input id="recipename" v-model="$v.form.recipename.$model" type="text"
+              :state="validateState('recipename')"></b-form-input>
+            <b-form-invalid-feedback v-if="!$v.form.recipename.required">
+              Recipe name is required
+            </b-form-invalid-feedback>
+          </b-form-group>
 
-      <b-form-group id="input-group-cuisine" label-cols-sm="3" label="Cuisine:" label-for="cuisine">
-        <b-form-select id="cuisine" v-model="$v.form.cuisine.$model" :options="cuisines"
-          :state="validateState('cuisine')"></b-form-select>
-        <b-form-invalid-feedback>
-          Cuisine is required
-        </b-form-invalid-feedback>
-      </b-form-group>
+          <b-form-group id="input-group-cuisine" label-cols-sm="3" label="Cuisine:" label-for="cuisine">
+            <b-form-select id="cuisine" v-model="$v.form.cuisine.$model" :options="cuisines"
+              :state="validateState('cuisine')"></b-form-select>
+            <b-form-invalid-feedback>
+              Cuisine is required
+            </b-form-invalid-feedback>
+          </b-form-group>
 
-      <b-form-group id="input-group-diet" label-cols-sm="3" label="Diet:" label-for="diet">
-        <b-form-select id="diet" v-model="$v.form.diet.$model" :options="diets" :state="validateState('diet')">
-        </b-form-select>
-        <b-form-invalid-feedback>
-          Diet is required
-        </b-form-invalid-feedback>
-      </b-form-group>
+          <b-form-group id="input-group-diet" label-cols-sm="3" label="Diet:" label-for="diet">
+            <b-form-select id="diet" v-model="$v.form.diet.$model" :options="diets" :state="validateState('diet')">
+            </b-form-select>
+            <b-form-invalid-feedback>
+              Diet is required
+            </b-form-invalid-feedback>
+          </b-form-group>
 
-      <b-form-group id="input-group-intolerance" label-cols-sm="3" label="Intolerance:" label-for="intolerance">
-        <b-form-select id="intolerance" v-model="$v.form.intolerance.$model" :options="intolerances"
-          :state="validateState('intolerance')"></b-form-select>
-        <b-form-invalid-feedback>
-          Intolerance is required
-        </b-form-invalid-feedback>
-      </b-form-group>
+          <b-form-group id="input-group-intolerance" label-cols-sm="3" label="Intolerance:" label-for="intolerance">
+            <b-form-select id="intolerance" v-model="$v.form.intolerance.$model" :options="intolerances"
+              :state="validateState('intolerance')"></b-form-select>
+            <b-form-invalid-feedback>
+              Intolerance is required
+            </b-form-invalid-feedback>
+          </b-form-group>
 
-      <b-form-group id="input-group-resnum" label-cols-sm="3" label="Result number:" label-for="resnum">
-        <b-form-select id="resnum" v-model="$v.form.resnum.$model" :options="['5', '10', '15']"
-          :state="validateState('resnum')"></b-form-select>
-        <b-form-invalid-feedback>
-          Result number is required
-        </b-form-invalid-feedback>
-      </b-form-group>
+          <b-form-group id="input-group-resnum" label-cols-sm="3" label="Result number:" label-for="resnum">
+            <b-form-select id="resnum" v-model="$v.form.resnum.$model" :options="['5', '10', '15']"
+              :state="validateState('resnum')"></b-form-select>
+            <b-form-invalid-feedback>
+              Result number is required
+            </b-form-invalid-feedback>
+          </b-form-group>
 
-      <b-button type="reset" variant="danger">Reset</b-button>
-      <b-button type="submit" variant="primary" style="width:250px;" class="ml-5 w-75">Search</b-button>
-    </b-form>
-    <b-alert class="mt-2" v-if="this.no_res" variant="warning" dismissible show>
-      0 results found.
-    </b-alert>
+          <b-button type="reset" variant="danger">Reset</b-button>
+          <b-button type="submit" variant="primary" style="width:250px;" class="ml-5 ">Search</b-button>
+        </b-form>
+        <b-alert class="mt-2" v-if="this.no_res" variant="warning" dismissible show>
+          0 results found.
+        </b-alert>
+
+      </b-card-text>
+    </b-card>
+    <!-- <b-card class="mt-3 md-3" header="Form Data Result">
+      <pre class="m-0"><strong>form:</strong> {{ form }}</pre>
+      <pre class="m-0"><strong>$v.form:</strong> {{ $v.form }}</pre>
+    </b-card> -->
 
     <div>
       <br>
       <br>
-      <b-form v-if="this.show_recipes" @submit.prevent="Sort">
-        <h1 class="title">Sorting options</h1>
-        <b-form-group id="input-group-sortpick" label-cols-sm="3" label="Sort by:" label-for="sortpick">
-          <b-form-select id="sortpick" v-model="$v.form.sortpick.$model" :options="['None', 'Likes', 'Time to make']"
-            :state="validateState('sortpick')"></b-form-select>
-          <b-form-invalid-feedback>
-            Sort type is required
-          </b-form-invalid-feedback>
-        </b-form-group>
+      <b-card v-if="this.show_recipes" border-variant="secondary" header-border-variant="secondary"
+        header="Sorting options" align="center">
+        <b-card-text>
+          <b-form @submit.prevent="Sort">
+            <b-form-group id="input-group-sortpick" label-cols-sm="3" label="Sorting options" label-for="sortpick">
+              <b-form-select id="sortpick" v-model="$v.form.sortpick.$model" :options="['None', 'Likes', 'Time to make']"
+                :state="validateState('sortpick')"></b-form-select>
+              <b-form-invalid-feedback>
+                Sort type is required
+              </b-form-invalid-feedback>
+            </b-form-group>
 
-        <b-button type="submit" variant="primary" style="width:250px;" class="ml-5 w-75">Sort</b-button>
-      </b-form>
+            <b-button type="submit" variant="primary" style="width:250px;" class="ml-5 w-75">Sort</b-button>
+          </b-form>
+
+        </b-card-text>
+      </b-card>
       <br>
       <br>
       <RecipeViewerList v-if="this.show_recipes" :isPreview="false" :recipes="this.recipes" :show_ing_and_serv="false"
