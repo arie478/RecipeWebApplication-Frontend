@@ -13,7 +13,7 @@
       </div>
 
     <div class="float-child">
-      <RecipeViewerList v-if="this.$root.store.username" title="Last Viewed Recipes" :recipes="lastViewedRecipes" :isPreview="true" :show_ing_and_serv="false" disabled />
+      <RecipeViewerList v-if="this.$root.store.username" title="Last Watched Recipes" :recipes="lastViewedRecipes" :isPreview="true" :show_ing_and_serv="false" disabled />
     </div>
 
   </div>
@@ -79,7 +79,7 @@ export default
   },
 
   mounted() {
-    //this.updateRandomRecipes();
+    // this.updateRandomRecipes();
     this.updateLastViewedRecipes();
   },
 };

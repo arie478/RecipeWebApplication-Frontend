@@ -127,8 +127,9 @@ html {
 .about-section {
   padding: 50px;
   text-align: center;
-  background-color: #474e5d;
+  background-color: rgb(21, 174, 185);
   color: white;
+  margin-top: 10px;
 }
 
 .container {
@@ -151,5 +152,9 @@ html {
     width: 100%;
     display: block;
   }
+}
+
+h2 {
+  font-size: 26px;
 }
 </style>

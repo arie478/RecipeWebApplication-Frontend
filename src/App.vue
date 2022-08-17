@@ -1,7 +1,12 @@
 <template>
   <div id="app">
 
-    <b-navbar toggleable="xl" variant="danger">
+    <!-- <b-navbar toggleable="xl" variant="primary"> -->
+    <!-- <b-navbar toggleable="xl" variant="success"> -->
+    <b-navbar toggleable="xl" variant="info">
+    <!-- <b-navbar toggleable="xl" variant="warning"> -->
+    <!-- <b-navbar toggleable="xl" variant="danger"> -->
+    <!-- <b-navbar toggleable="xl" variant="dark"> -->
 
       <b-navbar-brand :to="{ name: 'main' }">FoodIsGood</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -68,6 +73,8 @@ export default {
 
 <style lang="scss">
 @import "@/scss/form-style.scss";
+
+
 
 #nav {
   padding: 30px;
